@@ -2,5 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import App from './App';
+import GlobalStyled from './GlobalStyled';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+  <>
+    <GlobalStyled />
+    <App />
+  </>,
+  document.getElementById('root'),
+);

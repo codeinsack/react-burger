@@ -9,6 +9,7 @@ const Wrapper = styled.article`
   margin: 10px;
   box-sizing: border-box;
   cursor: pointer;
+  font-size: 10px;
 
   :hover,
   :active {

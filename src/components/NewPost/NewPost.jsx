@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { Component } from 'react';
 
 import Wrapper from './NewPostStyled';
@@ -7,6 +8,16 @@ class NewPost extends Component {
     title: '',
     content: '',
     author: 'Max',
+  };
+
+  postDataHandler = () => {
+    const { title, content, author } = this.state;
+    axios.post('/posts', {
+      title,
+      content,
+      author,
+    })
+      .then(response => console.log(response));
   };
 
   render() {
@@ -35,7 +46,7 @@ class NewPost extends Component {
           <option value="Max">Max</option>
           <option value="Manu">Manu</option>
         </select>
-        <button type="button">Add Post</button>
+        <button type="button" onClick={this.postDataHandler}>Add Post</button>
       </Wrapper>
     );
   }

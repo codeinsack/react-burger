@@ -39,5 +39,8 @@ module.exports = {
   devServer: {
     contentBase: './dist',
     port: 2033,
+    historyApiFallback: {
+      index: 'index.html',
+    },
   },
 };

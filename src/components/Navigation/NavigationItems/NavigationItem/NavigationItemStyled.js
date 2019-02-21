@@ -13,12 +13,14 @@ const Wrapper = styled.li`
     box-sizing: border-box;
     display: block;
     
-    color: ${props => (props.active ? '#40a4c8' : null)};
-    
     :hover,
     :active {
       color: #40a4c8;
     }
+  }
+  
+  .active {
+    color: #40a4c8;
   }
   
   @media (min-width: 500px) {
@@ -34,15 +36,18 @@ const Wrapper = styled.li`
       height: 100%;
       padding: 16px 10px;
       border-bottom: 4px solid transparent;
-      background-color: ${props => (props.active ? '#8f5c2c' : null)};
-      border-bottom: ${props => (props.active ? '4px solid #40a4c8' : null)};
       
       :hover,
-      :active,
-      .active {
+      :active {
         background-color:#8f5c2c;
         border-bottom: 4px solid #40a4c8;
       }
+    }
+    
+    .active {
+      background-color:#8f5c2c;
+      border-bottom: 4px solid #40a4c8;
+      color: white;
     }
   }
 `;

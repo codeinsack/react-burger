@@ -1,9 +1,11 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
+
 import Wrapper from './NavigationItemStyled';
 
 const navigationItem = ({ children, link, active }) => (
   <Wrapper active={active}>
-    <a href={link}>{children}</a>
+    <NavLink exact to={link}>{children}</NavLink>
   </Wrapper>
 );
 

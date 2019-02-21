@@ -1,0 +1,46 @@
+import styled from 'styled-components';
+
+const Wrapper = styled.div`
+  width: 80%;
+  margin: 20px auto;
+  border: 1px solid #eee;
+  box-shadow: 0 2px 3px #ccc;
+  text-align: center;
+
+  label {
+    display: block;
+    margin: 10px auto;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  input,
+  textarea,
+  select {
+    display: block;
+    width: 80%;
+    box-sizing: border-box;
+    border: 1px solid black;
+    outline: none;
+    font: inherit;
+    margin: auto;
+  }
+
+  button {
+    margin: 5px 0;
+    padding: 10px;
+    font: inherit;
+    border: 1px solid #fa923f;
+    background-color: transparent;
+    color: #fa923f;
+    cursor: pointer;
+    
+    :hover,
+    :active {
+      color: white;
+      background-color: #fa923f;
+    }
+  }
+`;
+
+export default Wrapper;

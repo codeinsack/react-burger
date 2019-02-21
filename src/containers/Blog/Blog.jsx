@@ -1,58 +1,33 @@
 import React, { Component } from 'react';
-import axios from '../../axios';
+import { Route, NavLink, Switch } from 'react-router-dom';
 
-import Post from '../../components/Post/Post';
-import FullPost from '../../components/FullPost/FullPost';
-import NewPost from '../../components/NewPost/NewPost';
 import Wrapper from './BlogStyled';
+import Posts from './Posts/Posts';
+import NewPost from './NewPost/NewPost';
+import FullPost from './FullPost/FullPost';
 
 class Blog extends Component {
-  state = {
-    posts: [],
-    selectedPostId: null,
-  };
-
-  componentDidMount() {
-    axios.get('/posts')
-      .then((response) => {
-        const posts = response.data.slice(0, 4);
-        const updatedPosts = posts.map(post => ({
-          ...post,
-          author: 'Eugene',
-        }));
-        this.setState({ posts: updatedPosts });
-      });
-  }
-
-  postSelectedHandler = (id) => {
-    this.setState({
-      selectedPostId: id,
-    });
-  };
-
   render() {
-    const { posts, selectedPostId } = this.state;
-    const newPosts = posts.map(post => (
-      <Post
-        key={post.id}
-        title={post.title}
-        author={post.author}
-        clicked={() => this.postSelectedHandler(post.id)}
-      />
-    ));
-
     return (
-      <div>
+      <>
         <Wrapper>
-          {newPosts}
+          <nav>
+            <ul>
+              <li>
+                <NavLink exact to="/">Home</NavLink>
+              </li>
+              <li>
+                <NavLink to="/new-post">New Post</NavLink>
+              </li>
+            </ul>
+          </nav>
         </Wrapper>
-        <section>
-          <FullPost id={selectedPostId} />
-        </section>
-        <section>
-          <NewPost />
-        </section>
-      </div>
+        <Switch>
+          <Route path="/" exact component={Posts} />
+          <Route path="/new-post" component={NewPost} />
+          <Route path="/:id" exact component={FullPost} />
+        </Switch>
+      </>
     );
   }
 }

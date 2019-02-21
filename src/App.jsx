@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BrowserRouter } from 'react-router-dom';
 
 import Blog from './containers/Blog/Blog';
 import Wrapper from './AppStyled';
@@ -6,9 +7,11 @@ import Wrapper from './AppStyled';
 class App extends Component {
   render() {
     return (
-      <Wrapper>
-        <Blog />
-      </Wrapper>
+      <BrowserRouter>
+        <Wrapper>
+          <Blog />
+        </Wrapper>
+      </BrowserRouter>
     );
   }
 }

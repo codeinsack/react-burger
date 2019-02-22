@@ -1,3 +1,6 @@
+import * as actions from './actions/actions';
+import updateObject from './utility';
+
 const initialState = {
   counter: 0,
   results: [],
@@ -5,27 +8,24 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'INCREMENT':
-      return {
-        ...state,
-        counter: state.counter + 1,
-      };
-    case 'DECREMENT':
+    case actions.INCREMENT:
+      return updateObject(state, { counter: state.counter + 1 });
+    case actions.DECREMENT:
       return {
         ...state,
         counter: state.counter - 1,
       };
-    case 'ADD':
+    case actions.ADD:
       return {
         ...state,
         counter: state.counter + action.value,
       };
-    case 'SUB':
+    case actions.SUB:
       return {
         ...state,
         counter: state.counter - action.value,
       };
-    case 'STORE_RESULT':
+    case actions.STORE_RESULT:
       return {
         ...state,
         results: state.results.concat({
@@ -33,7 +33,7 @@ const reducer = (state = initialState, action) => {
           value: state.counter,
         }),
       };
-    case 'DELETE_RESULT':
+    case actions.DELETE_RESULT:
       return {
         ...state,
         results: state.results.filter(el => el.id !== action.id),

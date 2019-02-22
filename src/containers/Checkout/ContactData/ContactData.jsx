@@ -6,13 +6,20 @@ import Button from '../../../components/UI/Button/Button';
 import Wrapper from './ContactDataStyled';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
+import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
+import { purchaseBurger } from '../../../store/actions/index';
 
 const mapStateToProps = state => ({
-  ingredients: state.ingredients,
-  price: state.totalPrice,
+  ingredients: state.burgerBuilder.ingredients,
+  price: state.burgerBuilder.totalPrice,
+  loading: state.order.loading,
 });
 
-@connect(mapStateToProps)
+const mapDispatchToProps = dispatch => ({
+  onOrderBurger: orderData => dispatch(purchaseBurger(orderData)),
+});
+
+@connect(mapStateToProps, mapDispatchToProps)
 
 class ContactData extends Component {
   state = {
@@ -100,15 +107,13 @@ class ContactData extends Component {
       },
     },
     formIsValid: false,
-    loading: false,
   };
 
   orderHandler = (e) => {
     e.preventDefault();
-    const { ingredients, price, history } = this.props;
+    const { ingredients, price, onOrderBurger } = this.props;
     const { orderForm } = this.state;
 
-    this.setState({ loading: true });
     const formData = {};
     for (const formElementId in orderForm) {
       formData[formElementId] = orderForm[formElementId].value;
@@ -120,14 +125,7 @@ class ContactData extends Component {
       orderData: formData,
     };
 
-    axios.post('/orders.json', order)
-      .then(() => {
-        this.setState({ loading: false });
-        history.push('/');
-      })
-      .catch(() => {
-        this.setState({ loading: false });
-      });
+    onOrderBurger(order);
   };
 
   checkValidity = (value, rules) => {
@@ -176,7 +174,7 @@ class ContactData extends Component {
     updatedFormElement.touched = true;
     updatedOrderForm[inputId] = updatedFormElement;
 
-    let formIsValid = false;
+    let formIsValid = true;
     for (const inputId in updatedOrderForm) {
       formIsValid = updatedOrderForm[inputId].valid && formIsValid;
     }
@@ -185,7 +183,8 @@ class ContactData extends Component {
   };
 
   render() {
-    const { loading, orderForm, formIsValid } = this.state;
+    const { orderForm, formIsValid } = this.state;
+    const { loading } = this.props;
     const formElementsArray = [];
     for (const key in orderForm) {
       formElementsArray.push({
@@ -223,4 +222,4 @@ class ContactData extends Component {
   }
 }
 
-export default ContactData;
+export default withErrorHandler(ContactData, axios);

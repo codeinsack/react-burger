@@ -8,22 +8,21 @@ import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import axios from '../../axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
-import * as actioTypes from '../../store/actions';
+import {
+  addIngredient, removeIngredient, initIngredients, purchaseInit,
+} from '../../store/actions/index';
 
 const mapStateToProps = state => ({
-  ingredients: state.ingredients,
-  price: state.totalPrice,
+  ingredients: state.burgerBuilder.ingredients,
+  price: state.burgerBuilder.totalPrice,
+  error: state.burgerBuilder.error,
 });
 
 const mapDispatchToProps = dispatch => ({
-  onIngredientAdded: ingName => dispatch({
-    type: actioTypes.ADD_INGREDIENT,
-    ingredientName: ingName,
-  }),
-  onIngredientRemoved: ingName => dispatch({
-    type: actioTypes.REMOVE_INGREDIENT,
-    ingredientName: ingName,
-  }),
+  onIngredientAdded: ingName => dispatch(addIngredient(ingName)),
+  onIngredientRemoved: ingName => dispatch(removeIngredient(ingName)),
+  onInitIngredients: () => dispatch(initIngredients()),
+  onInitPurchase: () => dispatch(purchaseInit()),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -31,19 +30,12 @@ const mapDispatchToProps = dispatch => ({
 class BurgerBuilder extends Component {
   state = {
     purchasing: false,
-    loading: false,
-    error: false,
   };
 
-  // componentDidMount() {
-  //   axios.get('/ingredients.json')
-  //     .then((response) => {
-  //       this.setState({ ingredients: response.data });
-  //     })
-  //     .catch(() => {
-  //       this.setState({ error: true });
-  //     });
-  // }
+  componentDidMount() {
+    const { onInitIngredients } = this.props;
+    onInitIngredients();
+  }
 
   updatePurchaseState = () => {
     const { ingredients } = this.props;
@@ -68,14 +60,15 @@ class BurgerBuilder extends Component {
   };
 
   purchaseContinueHandler = () => {
-    const { history } = this.props;
+    const { history, onInitPurchase } = this.props;
+    onInitPurchase();
     history.push('/checkout');
   };
 
   render() {
-    const { purchasing, loading, error } = this.state;
+    const { purchasing } = this.state;
     const {
-      ingredients, onIngredientAdded, onIngredientRemoved, price,
+      ingredients, onIngredientAdded, onIngredientRemoved, price, error,
     } = this.props;
 
     const disabledInfo = {
@@ -111,10 +104,6 @@ class BurgerBuilder extends Component {
 
     for (const key in disabledInfo) {
       disabledInfo[key] = disabledInfo[key] <= 0;
-    }
-
-    if (loading) {
-      orderSummary = <Spinner />;
     }
 
     return (

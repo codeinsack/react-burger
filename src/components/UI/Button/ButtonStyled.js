@@ -4,24 +4,23 @@ const Wrapper = styled.div`
   background-color: transparent;
   border: none;
   outline: none;
-  cursor: pointer;
   font: inherit;
   padding: 10px;
   margin: 10px;
   font-weight: bold;
   
-  :disabled {
-    color: #ccc;
-    cursor: not-allowed;
-  }
-   
+  
+  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   color: ${(props) => {
-    if (props.type === 'danger') {
-      return '#944317';
-    } if (props.type === 'success') {
-      return '#5c9210';
+    if (!props.disabled) {
+      if (props.type === 'danger') {
+        return '#944317';
+      } if (props.type === 'success') {
+        return '#5c9210';
+      }
+      return 'white';
     }
-    return 'white';
+    return '#ccc';
   }
 };
 

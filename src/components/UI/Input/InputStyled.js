@@ -26,4 +26,6 @@ const labelStyle = {
   marginBottom: '8px',
 };
 
-export { inputElementStyle, inputStyle, labelStyle };
+export {
+  inputElementStyle, inputStyle, labelStyle,
+};

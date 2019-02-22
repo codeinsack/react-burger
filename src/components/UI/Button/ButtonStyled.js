@@ -9,6 +9,11 @@ const Wrapper = styled.div`
   padding: 10px;
   margin: 10px;
   font-weight: bold;
+  
+  :disabled {
+    color: #ccc;
+    cursor: not-allowed;
+  }
    
   color: ${(props) => {
     if (props.type === 'danger') {

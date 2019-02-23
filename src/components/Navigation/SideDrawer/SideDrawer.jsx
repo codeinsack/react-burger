@@ -8,7 +8,7 @@ import Backdrop from '../../UI/Backdrop/Backdrop';
 const sideDrawer = ({ open, closed, isAuth }) => (
   <>
     <Backdrop show={open} clicked={closed} />
-    <Wrapper open={open}>
+    <Wrapper open={open} onClick={closed}>
       <div className="Logo">
         <Logo />
       </div>

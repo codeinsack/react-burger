@@ -5,7 +5,7 @@ import Wrapper from './ButtonStyled';
 const button = ({
   children, btnType, clicked, disabled,
 }) => (
-  <Wrapper type={btnType} onClick={clicked} disabled={disabled}>
+  <Wrapper btnType={btnType} onClick={clicked} disabled={disabled}>
     {children}
   </Wrapper>
 );

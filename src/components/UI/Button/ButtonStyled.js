@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Wrapper = styled.div`
+const Wrapper = styled.button`
   background-color: transparent;
   border: none;
   outline: none;
@@ -13,9 +13,9 @@ const Wrapper = styled.div`
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   color: ${(props) => {
     if (!props.disabled) {
-      if (props.type === 'danger') {
+      if (props.btnType === 'danger') {
         return '#944317';
-      } if (props.type === 'success') {
+      } if (props.btnType === 'success') {
         return '#5c9210';
       }
       return 'white';

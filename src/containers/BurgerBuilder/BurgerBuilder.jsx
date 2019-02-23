@@ -9,13 +9,14 @@ import axios from '../../axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import {
-  addIngredient, removeIngredient, initIngredients, purchaseInit,
+  addIngredient, removeIngredient, initIngredients, purchaseInit, setAuthRedirectPath,
 } from '../../store/actions/index';
 
 const mapStateToProps = state => ({
   ingredients: state.burgerBuilder.ingredients,
   price: state.burgerBuilder.totalPrice,
   error: state.burgerBuilder.error,
+  isAuthenticated: state.auth.token !== null,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -23,6 +24,7 @@ const mapDispatchToProps = dispatch => ({
   onIngredientRemoved: ingName => dispatch(removeIngredient(ingName)),
   onInitIngredients: () => dispatch(initIngredients()),
   onInitPurchase: () => dispatch(purchaseInit()),
+  onSetAuthRedirectPath: path => dispatch(setAuthRedirectPath(path)),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -50,7 +52,13 @@ class BurgerBuilder extends Component {
   };
 
   purchaseHandler = () => {
-    this.setState({ purchasing: true });
+    const { isAuthenticated, history, onSetAuthRedirectPath } = this.props;
+    if (isAuthenticated) {
+      this.setState({ purchasing: true });
+    } else {
+      onSetAuthRedirectPath('/checkout');
+      history.push('/auth');
+    }
   };
 
   purchaseCancelHandler = () => {
@@ -68,7 +76,7 @@ class BurgerBuilder extends Component {
   render() {
     const { purchasing } = this.state;
     const {
-      ingredients, onIngredientAdded, onIngredientRemoved, price, error,
+      ingredients, onIngredientAdded, onIngredientRemoved, price, error, isAuthenticated,
     } = this.props;
 
     const disabledInfo = {
@@ -87,6 +95,7 @@ class BurgerBuilder extends Component {
             disabled={disabledInfo}
             purchasable={this.updatePurchaseState()}
             ordered={this.purchaseHandler}
+            isAuth={isAuthenticated}
             price={price}
           />
         </>

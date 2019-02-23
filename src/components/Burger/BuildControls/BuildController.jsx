@@ -11,7 +11,7 @@ const controls = [
 ];
 
 const buildController = ({
-  ingredientAdded, ingredientRemoved, disabled, price, purchasable, ordered
+  ingredientAdded, ingredientRemoved, disabled, price, purchasable, ordered, isAuth,
 }) => (
   <Wrapper>
     <p>Current Price: <strong>{price.toFixed(2)}</strong></p>
@@ -30,7 +30,7 @@ const buildController = ({
       disabled={!purchasable}
       onClick={ordered}
     >
-      ORDER NOW
+      {isAuth ? 'ORDER NOW' : 'SIGN UP TO ORDER'}
     </button>
   </Wrapper>
 );

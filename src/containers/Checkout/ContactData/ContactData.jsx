@@ -13,10 +13,12 @@ const mapStateToProps = state => ({
   ingredients: state.burgerBuilder.ingredients,
   price: state.burgerBuilder.totalPrice,
   loading: state.order.loading,
+  token: state.auth.token,
+  userId: state.auth.userId,
 });
 
 const mapDispatchToProps = dispatch => ({
-  onOrderBurger: orderData => dispatch(purchaseBurger(orderData)),
+  onOrderBurger: (orderData, token) => dispatch(purchaseBurger(orderData, token)),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -111,7 +113,9 @@ class ContactData extends Component {
 
   orderHandler = (e) => {
     e.preventDefault();
-    const { ingredients, price, onOrderBurger } = this.props;
+    const {
+      ingredients, price, onOrderBurger, token, userId,
+    } = this.props;
     const { orderForm } = this.state;
 
     const formData = {};
@@ -123,9 +127,10 @@ class ContactData extends Component {
       ingredients,
       price,
       orderData: formData,
+      userId,
     };
 
-    onOrderBurger(order);
+    onOrderBurger(order, token);
   };
 
   checkValidity = (value, rules) => {
@@ -194,7 +199,7 @@ class ContactData extends Component {
     }
 
     let form = (
-      <form>
+      <form onSubmit={this.orderHandler}>
         {formElementsArray.map(el => (
           <Input
             key={el.id}
@@ -207,7 +212,7 @@ class ContactData extends Component {
             touched={el.config.touched}
           />
         ))}
-        <Button clicked={this.orderHandler} disabled={!formIsValid} btnType="success">ORDER</Button>
+        <Button disabled={!formIsValid} btnType="success">ORDER</Button>
       </form>
     );
     if (loading) {

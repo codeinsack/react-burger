@@ -5,7 +5,7 @@ import Logo from '../../Logo/Logo';
 import Wrapper from './SideDrawerStyled';
 import Backdrop from '../../UI/Backdrop/Backdrop';
 
-const sideDrawer = ({ open, closed }) => (
+const sideDrawer = ({ open, closed, isAuth }) => (
   <>
     <Backdrop show={open} clicked={closed} />
     <Wrapper open={open}>
@@ -13,7 +13,7 @@ const sideDrawer = ({ open, closed }) => (
         <Logo />
       </div>
       <nav>
-        <NavigationItems />
+        <NavigationItems isAuthenticated={isAuth} />
       </nav>
     </Wrapper>
   </>

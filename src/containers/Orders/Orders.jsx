@@ -10,18 +10,20 @@ import { fetchOrders } from '../../store/actions';
 const mapStateToProps = state => ({
   orders: state.order.orders,
   loading: state.order.loading,
+  token: state.auth.token,
+  userId: state.auth.userId,
 });
 
 const mapDispatchToProps = dispatch => ({
-  onFetchOrders: orders => dispatch(fetchOrders(orders)),
+  onFetchOrders: (token, userId) => dispatch(fetchOrders(token, userId)),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
 
 class Orders extends Component {
   componentDidMount() {
-    const { onFetchOrders, orders } = this.props;
-    onFetchOrders(orders);
+    const { onFetchOrders, token, userId } = this.props;
+    onFetchOrders(token, userId);
   }
 
   render() {
